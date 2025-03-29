@@ -142,7 +142,7 @@
         <input type="text" id="insured" placeholder="Enter insured amount">
 
         <label>In Word:</label>
-        <input type="text" id="inWord" placeholder="Enter amount in words">
+        <input type="text" id="inWord" placeholder="Enter amount in words" readonly>
 
         <label>Tenure (Page 1):</label>
         <select id="tenure">
@@ -194,6 +194,50 @@
         function enableButtons(enable) {
             document.getElementById('generateBtn').disabled = !enable;
             document.getElementById('printBtn').disabled = !enable;
+        }
+
+        // Number to Words conversion (Indian style, fixed)
+        function numberToWords(num) {
+            const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+            const tens = ['', 'Ten', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+            const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+            const units = ['', 'Thousand', 'Lakh', 'Crore'];
+
+            if (!num || isNaN(num)) return '';
+            num = parseFloat(num).toString().replace(/\..*/g,''); // Remove decimals
+
+            if (num === '0') return 'Zero';
+
+            let str = '';
+            let crore = Math.floor(num / 10000000);
+            num %= 10000000;
+            let lakh = Math.floor(num / 100000);
+            num %= 100000;
+            let thousand = Math.floor(num / 1000);
+            num %= 1000;
+            let hundred = Math.floor(num / 100);
+            num %= 100;
+
+            if (crore > 0) {
+                str += numberToWords(crore) + ' Crore ';
+            }
+            if (lakh > 0) {
+                str += numberToWords(lakh) + ' Lakh ';
+            }
+            if (thousand > 0) {
+                str += numberToWords(thousand) + ' Thousand ';
+            }
+            if (hundred > 0) {
+                str += ones[hundred] + ' Hundred ';
+            }
+            if (num > 0) {
+                if (str !== '') str += 'and ';
+                if (num < 10) str += ones[num];
+                else if (num < 20) str += teens[num - 10];
+                else str += tens[Math.floor(num / 10)] + (num % 10 > 0 ? ' ' + ones[num % 10] : '');
+            }
+
+            return str.trim();
         }
 
         // Calculate premium based on type, tenure, and insured amount
@@ -459,6 +503,7 @@
             const form = document.getElementById('customerForm');
             form.reset();
             document.getElementById('date').value = getTodayDate();
+            document.getElementById('inWord').value = ''; // Clear "In Word" on reset
             updateGender();
             calculatePremium();
         }
@@ -481,7 +526,11 @@
             updatePDFType();
             document.getElementById('relationship').addEventListener('change', updateGender);
             document.getElementById('tenure').addEventListener('change', calculatePremium);
-            document.getElementById('insured').addEventListener('input', calculatePremium);
+            document.getElementById('insured').addEventListener('input', () => {
+                calculatePremium();
+                const insuredValue = document.getElementById('insured').value;
+                document.getElementById('inWord').value = numberToWords(insuredValue);
+            });
             document.getElementById('pdfTypeSelection').addEventListener('change', calculatePremium);
             updateGender();
             calculatePremium();
