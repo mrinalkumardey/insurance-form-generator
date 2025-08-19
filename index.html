@@ -100,6 +100,7 @@
             <option value="kotoha">Kotoha</option>
             <option value="thakurthan">Thakurthan</option>
             <option value="jajoli">Jajoli</option>
+            <option value="latumoni">Latumoni</option>
         </select>
     </div>
     <div id="pdfTypeSelection">
@@ -185,17 +186,18 @@
     <script src="https://unpkg.com/pdf-lib@1.17.0/dist/pdf-lib.min.js"></script>
     <script>
         const state = {
-            originalPdfBytes: null,
-            currentPdfType: 'life',
-            currentBranch: 'moran2',
-            pdfTemplates: {
-                moran2: { life: null, health: null },
-                moran: { life: null, health: null },
-                kotoha: { life: null, health: null },
-                thakurthan: { life: null, health: null },
-                jajoli: { life: null, health: null }
-            }
-        };
+    originalPdfBytes: null,
+    currentPdfType: 'life',
+    currentBranch: 'moran2',
+    pdfTemplates: {
+        moran2: { life: null, health: null },
+        moran: { life: null, health: null },
+        kotoha: { life: null, health: null },
+        thakurthan: { life: null, health: null },
+        jajoli: { life: null, health: null },
+        latumoni: { life: null, health: null }
+    }
+};
 
         // Utility functions
         function getTodayDate() {
