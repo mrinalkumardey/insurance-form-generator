@@ -181,31 +181,30 @@
             <button type="button" id="printBtn" onclick="printPDF()" disabled>Print PDF</button>
         </div>
     </form>
-    <div id="loading">Generating PDF...</div>
+    <div id="loading">Loading PDF...</div>
 
     <script src="https://unpkg.com/pdf-lib@1.17.0/dist/pdf-lib.min.js"></script>
-<script>
-    // Paste the guard here—top of the script!
-    // AUTH GUARD for tools (runs first!)
-    const loginUrl = 'https://butools.netlify.app/';
-    if (localStorage.getItem('auth') !== 'true' || !isSessionValid()) {
-        localStorage.clear();
-        window.location.href = loginUrl;
-    }
-
-    // Session expiry check (30 mins)
-    function isSessionValid() {
-        const loginTime = localStorage.getItem('loginTime');
-        return loginTime && (Date.now() - parseInt(loginTime)) < 1800000;
-    }
-
-    // Auto-logout timer (checks every 60s)
-    setInterval(() => {
-        if (!isSessionValid()) {
+    <script>
+        // AUTH GUARD for tools (runs first!)
+        const loginUrl = 'https://butools.netlify.app/';
+        if (localStorage.getItem('auth') !== 'true' || !isSessionValid()) {
             localStorage.clear();
             window.location.href = loginUrl;
         }
-    }, 60000);
+
+        // Session expiry check (30 mins)
+        function isSessionValid() {
+            const loginTime = localStorage.getItem('loginTime');
+            return loginTime && (Date.now() - parseInt(loginTime)) < 1800000;
+        }
+
+        // Auto-logout timer (checks every 60s)
+        setInterval(() => {
+            if (!isSessionValid()) {
+                localStorage.clear();
+                window.location.href = loginUrl;
+            }
+        }, 60000);
 
         const state = {
             originalPdfBytes: null,
@@ -389,7 +388,7 @@
                 console.log(`${branch} ${type} template loaded`);
             } catch (error) {
                 console.error(error.message);
-                alert(`Couldn’t load ${state.currentBranch} ${state.currentPdfType} template. Please upload a PDF manually.`);
+                alert(`Couldn't load ${state.currentBranch} ${state.currentPdfType} template. Please upload a PDF manually.`);
                 state.originalPdfBytes = null;
                 enableButtons(false);
             }
@@ -569,7 +568,7 @@
                         </html>
                     `);
                     printWindow.document.close();
-                    printWindow.onunload = () => URL.revokeObjectURL(url);
+                    printWindow.onload = () => URL.revokeObjectURL(url);
                 } else {
                     alert('Popup blocked! Please allow popups for this site.');
                 }
@@ -618,4 +617,3 @@
     </script>
 </body>
 </html>
-
