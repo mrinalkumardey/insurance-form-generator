@@ -185,19 +185,39 @@
 
     <script src="https://unpkg.com/pdf-lib@1.17.0/dist/pdf-lib.min.js"></script>
     <script>
+        // AUTH GUARD for tools (runs first!)
+        if (localStorage.getItem('auth') !== 'true' || !isSessionValid()) {
+            localStorage.clear();
+            window.location.href = 'https://your-main-site.netlify.app/login.html';  // Full URL to your login page (swap with actual)
+        }
+
+        // Session expiry check (30 mins)
+        function isSessionValid() {
+            const loginTime = localStorage.getItem('loginTime');
+            return loginTime && (Date.now() - parseInt(loginTime)) < 1800000;
+        }
+
+        // Auto-logout timer (checks every minute)
+        setInterval(() => {
+            if (!isSessionValid()) {
+                localStorage.clear();
+                window.location.href = 'https://your-main-site.netlify.app/login.html';
+            }
+        }, 60000);
+
         const state = {
-    originalPdfBytes: null,
-    currentPdfType: 'life',
-    currentBranch: 'moran2',
-    pdfTemplates: {
-        moran2: { life: null, health: null },
-        moran: { life: null, health: null },
-        kotoha: { life: null, health: null },
-        thakurthan: { life: null, health: null },
-        jajoli: { life: null, health: null },
-        latumoni: { life: null, health: null }
-    }
-};
+            originalPdfBytes: null,
+            currentPdfType: 'life',
+            currentBranch: 'moran2',
+            pdfTemplates: {
+                moran2: { life: null, health: null },
+                moran: { life: null, health: null },
+                kotoha: { life: null, health: null },
+                thakurthan: { life: null, health: null },
+                jajoli: { life: null, health: null },
+                latumoni: { life: null, health: null }
+            }
+        };
 
         // Utility functions
         function getTodayDate() {
@@ -594,4 +614,4 @@
         };
     </script>
 </body>
-</html>
+</html>c 
