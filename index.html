@@ -186,7 +186,7 @@
     <script src="https://unpkg.com/pdf-lib@1.17.0/dist/pdf-lib.min.js"></script>
     <script>
         // AUTH GUARD for tools (runs first!)
-        const loginUrl = 'https://butools.netlify.app/';  // Updated to your main login screen
+        const loginUrl = 'https://butools.netlify.app/';
         if (localStorage.getItem('auth') !== 'true' || !isSessionValid()) {
             localStorage.clear();
             window.location.href = loginUrl;
@@ -198,7 +198,7 @@
             return loginTime && (Date.now() - parseInt(loginTime)) < 1800000;
         }
 
-        // Auto-logout timer (checks every minute)
+        // Auto-logout timer (checks every 60s)
         setInterval(() => {
             if (!isSessionValid()) {
                 localStorage.clear();
@@ -432,7 +432,8 @@
             if (!state.originalPdfBytes) throw new Error('No PDF loaded!');
             showLoading(true);
             try {
-                const pdfDoc = await PDFLib.PDFDocument.load(state.originalPdfBytes);
+                const { PDFDocument } = PDFLib;
+                const pdfDoc = await PDFDocument.load(state.originalPdfBytes);
 
                 const formData = {
                     name: document.getElementById('name').value || '',
