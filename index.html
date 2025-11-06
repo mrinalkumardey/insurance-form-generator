@@ -188,7 +188,7 @@
         // AUTH GUARD for tools (runs first!)
         if (localStorage.getItem('auth') !== 'true' || !isSessionValid()) {
             localStorage.clear();
-            window.location.href = 'https://your-main-site.netlify.app/login.html';  // Full URL to your login page (swap with actual)
+            window.location.href = 'https://butools.netlify.app/';  // Full URL to your login page (swap with actual)
         }
 
         // Session expiry check (30 mins)
@@ -615,3 +615,4 @@
     </script>
 </body>
 </html>c 
+
