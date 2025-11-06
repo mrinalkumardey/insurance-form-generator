@@ -186,9 +186,10 @@
     <script src="https://unpkg.com/pdf-lib@1.17.0/dist/pdf-lib.min.js"></script>
     <script>
         // AUTH GUARD for tools (runs first!)
+        const loginUrl = 'https://butools.netlify.app/';  // Updated to your main login screen
         if (localStorage.getItem('auth') !== 'true' || !isSessionValid()) {
             localStorage.clear();
-            window.location.href = 'https://butools.netlify.app/';  // Full URL to your login page (swap with actual)
+            window.location.href = loginUrl;
         }
 
         // Session expiry check (30 mins)
@@ -201,7 +202,7 @@
         setInterval(() => {
             if (!isSessionValid()) {
                 localStorage.clear();
-                window.location.href = 'https://your-main-site.netlify.app/login.html';
+                window.location.href = loginUrl;
             }
         }, 60000);
 
@@ -468,7 +469,7 @@
                 }
                 if (formData.contact) page1.drawText(formData.contact, { x: 338, y: 641, size: 10, maxWidth: 200 });
                 if (formData.email) page1.drawText(formData.email, { x: 114, y: 630, size: 8, maxWidth: 200 });
-                if (formData.cif) page1.drawText(formData.cif, { x: 324, y: 628, size: 10, maxWidth: 200 });
+                if (formData.cif) page1.drawText(formData.cif, { x: 324, y: 630, size: 10, maxWidth: 200 });
                 if (formData.account) page1.drawText(formData.account, { x: 79, y: 616, size: 10, maxWidth: 200 });
                 if (formData.nominee) page1.drawText(formData.nominee.toUpperCase(), { x: 158, y: 480 + healthOffset, size: 10, maxWidth: 200 });
                 if (state.currentPdfType === 'life' && formData.insured) page1.drawText(formData.insured, { x: 165, y: 504, size: 10, maxWidth: 200 });
@@ -614,5 +615,4 @@
         };
     </script>
 </body>
-</html>c 
-
+</html>
