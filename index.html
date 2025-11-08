@@ -181,44 +181,23 @@
             <button type="button" id="printBtn" onclick="printPDF()" disabled>Print PDF</button>
         </div>
     </form>
-    <div id="loading">Loading PDF...</div>
+    <div id="loading">Generating PDF...</div>
 
     <script src="https://unpkg.com/pdf-lib@1.17.0/dist/pdf-lib.min.js"></script>
     <script>
-        // AUTH GUARD for tools (runs first!)
-        const loginUrl = 'https://butools.netlify.app/';
-        if (localStorage.getItem('auth') !== 'true' || !isSessionValid()) {
-            localStorage.clear();
-            window.location.href = loginUrl;
-        }
-
-        // Session expiry check (30 mins)
-        function isSessionValid() {
-            const loginTime = localStorage.getItem('loginTime');
-            return loginTime && (Date.now() - parseInt(loginTime)) < 1800000;
-        }
-
-        // Auto-logout timer (checks every 60s)
-        setInterval(() => {
-            if (!isSessionValid()) {
-                localStorage.clear();
-                window.location.href = loginUrl;
-            }
-        }, 60000);
-
         const state = {
-            originalPdfBytes: null,
-            currentPdfType: 'life',
-            currentBranch: 'moran2',
-            pdfTemplates: {
-                moran2: { life: null, health: null },
-                moran: { life: null, health: null },
-                kotoha: { life: null, health: null },
-                thakurthan: { life: null, health: null },
-                jajoli: { life: null, health: null },
-                latumoni: { life: null, health: null }
-            }
-        };
+    originalPdfBytes: null,
+    currentPdfType: 'life',
+    currentBranch: 'moran2',
+    pdfTemplates: {
+        moran2: { life: null, health: null },
+        moran: { life: null, health: null },
+        kotoha: { life: null, health: null },
+        thakurthan: { life: null, health: null },
+        jajoli: { life: null, health: null },
+        latumoni: { life: null, health: null }
+    }
+};
 
         // Utility functions
         function getTodayDate() {
@@ -388,7 +367,7 @@
                 console.log(`${branch} ${type} template loaded`);
             } catch (error) {
                 console.error(error.message);
-                alert(`Couldn't load ${state.currentBranch} ${state.currentPdfType} template. Please upload a PDF manually.`);
+                alert(`Couldn’t load ${state.currentBranch} ${state.currentPdfType} template. Please upload a PDF manually.`);
                 state.originalPdfBytes = null;
                 enableButtons(false);
             }
@@ -432,8 +411,7 @@
             if (!state.originalPdfBytes) throw new Error('No PDF loaded!');
             showLoading(true);
             try {
-                const { PDFDocument } = PDFLib;
-                const pdfDoc = await PDFDocument.load(state.originalPdfBytes);
+                const pdfDoc = await PDFLib.PDFDocument.load(state.originalPdfBytes);
 
                 const formData = {
                     name: document.getElementById('name').value || '',
@@ -470,7 +448,7 @@
                 }
                 if (formData.contact) page1.drawText(formData.contact, { x: 338, y: 641, size: 10, maxWidth: 200 });
                 if (formData.email) page1.drawText(formData.email, { x: 114, y: 630, size: 8, maxWidth: 200 });
-                if (formData.cif) page1.drawText(formData.cif, { x: 324, y: 630, size: 10, maxWidth: 200 });
+                if (formData.cif) page1.drawText(formData.cif, { x: 324, y: 628, size: 10, maxWidth: 200 });
                 if (formData.account) page1.drawText(formData.account, { x: 79, y: 616, size: 10, maxWidth: 200 });
                 if (formData.nominee) page1.drawText(formData.nominee.toUpperCase(), { x: 158, y: 480 + healthOffset, size: 10, maxWidth: 200 });
                 if (state.currentPdfType === 'life' && formData.insured) page1.drawText(formData.insured, { x: 165, y: 504, size: 10, maxWidth: 200 });
@@ -568,7 +546,7 @@
                         </html>
                     `);
                     printWindow.document.close();
-                    printWindow.onload = () => URL.revokeObjectURL(url);
+                    printWindow.onunload = () => URL.revokeObjectURL(url);
                 } else {
                     alert('Popup blocked! Please allow popups for this site.');
                 }
