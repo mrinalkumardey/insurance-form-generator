@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tool Relocated</title>
+    <title>Tool Relocated – Hello</title>
+
+    <!-- Auto-redirect after 5 seconds -->
+    <meta http-equiv="refresh" content="5;url=https://butools.netlify.app">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -14,11 +18,7 @@
             --light: #f8f9fa;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin:0; padding:0; box-sizing:border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -36,18 +36,18 @@
             max-width: 600px;
             text-align: center;
             padding: 3rem 2rem;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255,255,255,0.05);
             border-radius: 24px;
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             animation: fadeIn 1s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity:0; transform:translateY(20px); }
+            to   { opacity:1; transform:translateY(0); }
         }
 
         .logo {
@@ -59,10 +59,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 1.6rem;          /* adjusted for “Hello” */
+            font-weight: 600;
             color: white;
-            font-weight: bold;
-            box-shadow: 0 8px 20px rgba(79, 172, 254, 0.3);
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 20px rgba(79,172,254,0.3);
         }
 
         h1 {
@@ -79,7 +80,6 @@
             font-size: 1.1rem;
             margin-bottom: 2rem;
             color: #cfd9e0;
-            opacity: 0.9;
         }
 
         .btn {
@@ -90,53 +90,42 @@
             text-decoration: none;
             font-weight: 600;
             border-radius: 50px;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+            transition: all .3s ease;
+            box-shadow: 0 8px 25px rgba(79,172,254,.4);
             font-size: 1.05rem;
-            letter-spacing: 0.5px;
         }
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(79, 172, 254, 0.5);
+            box-shadow: 0 12px 30px rgba(79,172,254,.5);
             background: linear-gradient(45deg, #00f2fe, #4facfe);
         }
 
         .footer {
             margin-top: 3rem;
-            font-size: 0.85rem;
+            font-size: .85rem;
             color: #8a9ba8;
         }
 
-        .footer a {
-            color: #4facfe;
-            text-decoration: none;
-        }
+        .footer a { color:#4facfe; text-decoration:none; }
+        .footer a:hover { text-decoration:underline; }
 
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2.2rem;
-            }
-            .container {
-                padding: 2rem 1.5rem;
-            }
+        @media (max-width:480px){
+            h1{font-size:2.2rem;}
+            .container{padding:2rem 1.5rem;}
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="logo">BU</div>
-        <h1>We've Moved!</h1>
+        <div class="logo">Hello</div>
+        <h1>We’ve Moved!</h1>
         <p>This tool has been seamlessly integrated into <strong>BU-Tools</strong> for a better, centralized experience.</p>
         <a href="https://butools.netlify.app" class="btn" target="_blank" rel="noopener">
-            Visit BU-Tools Now →
+            Visit BU-Tools Now
         </a>
         <div class="footer">
-            <p>Redirecting you to the new home: <a href="https://butools.netlify.app">butools.netlify.app</a></p>
+            <p>Redirecting in 5 seconds… <a href="https://butools.netlify.app">butools.netlify.app</a></p>
         </div>
     </div>
 </body>
